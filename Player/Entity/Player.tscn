@@ -1,0 +1,92 @@
+[gd_scene load_steps=13 format=3 uid="uid://7mmvptvm8oaa"]
+
+[ext_resource type="Script" uid="uid://bifwf55i8nkye" path="res://Player/Entity/Camera.gd" id="1_f71a7"]
+[ext_resource type="Script" uid="uid://bds8xwudn2nns" path="res://Player/Entity/playerController.gd" id="1_mahfv"]
+[ext_resource type="Shader" uid="uid://deu4icylu3kyq" path="res://Player/Entity/Shaders/PixelEffect.gdshader" id="2_4msa4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jgdqt"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jgdqt"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mahfv"]
+diffuse_mode = 3
+albedo_color = Color(0.313726, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jgdqt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jgdqt"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_f71a7"]
+radius = 1.0
+height = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hdlnp"]
+diffuse_mode = 3
+albedo_color = Color(0, 0.380392, 0.298039, 1)
+rim_tint = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mahfv"]
+size = Vector2(9, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hdlnp"]
+render_priority = 0
+shader = ExtResource("2_4msa4")
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_mahfv")
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("BoxShape3D_jgdqt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_jgdqt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_jgdqt")
+surface_material_override/0 = SubResource("StandardMaterial3D_mahfv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+mesh = SubResource("SphereMesh_jgdqt")
+surface_material_override/0 = SubResource("StandardMaterial3D_jgdqt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("SphereMesh_f71a7")
+surface_material_override/0 = SubResource("StandardMaterial3D_hdlnp")
+
+[node name="AnchorPoints" type="Node3D" parent="MeshInstance3D"]
+
+[node name="LeftArm" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="RightArm" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="LeftLeg" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 0)
+
+[node name="RightLeg" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 0)
+
+[node name="Head" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Head"]
+spring_length = 9.0
+margin = 0.725
+script = ExtResource("1_f71a7")
+
+[node name="Camera3D" type="Camera3D" parent="Head/SpringArm3D"]
+current = true
+near = 0.001
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/SpringArm3D/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1)
+mesh = SubResource("PlaneMesh_mahfv")
+surface_material_override/0 = SubResource("ShaderMaterial_hdlnp")
