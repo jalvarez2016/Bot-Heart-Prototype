@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://7mmvptvm8oaa"]
+[gd_scene load_steps=14 format=3 uid="uid://7mmvptvm8oaa"]
 
 [ext_resource type="Script" uid="uid://bifwf55i8nkye" path="res://Player/Entity/Camera.gd" id="1_f71a7"]
 [ext_resource type="Script" uid="uid://bds8xwudn2nns" path="res://Player/Entity/playerController.gd" id="1_mahfv"]
@@ -6,6 +6,10 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jgdqt"]
 size = Vector3(2, 2, 2)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mahfv"]
+radius = 1.65229
+height = 8.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_jgdqt"]
 size = Vector3(2, 2, 2)
@@ -45,7 +49,8 @@ script = ExtResource("1_mahfv")
 shape = SubResource("BoxShape3D_jgdqt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_jgdqt")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+shape = SubResource("CapsuleShape3D_mahfv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_jgdqt")
@@ -67,10 +72,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_hdlnp")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
 [node name="RightArm" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, 0)
 
 [node name="LeftLeg" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -1, 0)
 
 [node name="RightLeg" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 0)
@@ -88,5 +93,6 @@ near = 0.001
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1)
+visible = false
 mesh = SubResource("PlaneMesh_mahfv")
 surface_material_override/0 = SubResource("ShaderMaterial_hdlnp")

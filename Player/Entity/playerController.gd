@@ -4,6 +4,16 @@ extends CharacterBody3D
 @export var jump_force := 20.0
 @export var health := 100
 
+@export var RightArm : bool
+@export var LeftArm : bool
+@export var RightLeg : bool
+@export var LeftLeg : bool
+@onready var RightArmAnchor : Marker3D = $MeshInstance3D/AnchorPoints/RightArm
+@onready var LeftArmAnchor : Marker3D = $MeshInstance3D/AnchorPoints/LeftArm
+@onready var RightLegAnchor : Marker3D = $MeshInstance3D/AnchorPoints/RightLeg
+@onready var LeftLegAnchor : Marker3D = $MeshInstance3D/AnchorPoints/LeftLeg
+
+
 @onready var spring_arm: SpringArm3D = $Head/SpringArm3D
 @onready var mesh : MeshInstance3D = $MeshInstance3D
 
@@ -11,7 +21,19 @@ var angular_acceleration := 7
 var isAlive : bool = true
 var isSprinting : bool = false
 var dodging : bool = false
-var isOnMachine : bool = false
+
+var defaultArm = preload("res://Player/BaseParts/Attachments/BaseArm.tscn")
+var defaultLeg = preload("res://Player/BaseParts/Attachments/BaseLeg.tscn")
+
+func _ready() -> void:
+	if RightArm:
+		var arm = defaultArm.instantiate()
+		RightArmAnchor.add_child(arm)
+		pass
+	if LeftLeg:
+		var leg = defaultLeg.instantiate()
+		LeftLegAnchor.add_child(leg)
+	pass
 
 func _process(delta: float) -> void:
 	

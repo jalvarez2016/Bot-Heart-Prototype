@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dgdxgxjc2yo7o"]
+[gd_scene load_steps=9 format=3 uid="uid://dgdxgxjc2yo7o"]
 
 [ext_resource type="PackedScene" uid="uid://7mmvptvm8oaa" path="res://Player/Entity/Player.tscn" id="1_qcrmj"]
-[ext_resource type="PackedScene" uid="uid://5fq63xnuu27o" path="res://Player/BaseParts/BaseArm.tscn" id="2_edu2i"]
+[ext_resource type="PackedScene" uid="uid://5fq63xnuu27o" path="res://Player/BaseParts/Drops/BaseArm.tscn" id="2_edu2i"]
+[ext_resource type="PackedScene" uid="uid://bx6tjfq58ouv5" path="res://Player/BaseParts/Drops/BaseLeg.tscn" id="3_c213v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qcrmj"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -31,15 +32,21 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_qcrmj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+LeftLeg = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_qcrmj")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+collision_layer = 255
+collision_mask = 255
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_qcrmj")
 
 [node name="BaseArm" parent="." instance=ExtResource("2_edu2i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34663, 3, 6.45115)
+
+[node name="BaseLeg" parent="." instance=ExtResource("3_c213v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.37895, 2.5, 4.62827)
