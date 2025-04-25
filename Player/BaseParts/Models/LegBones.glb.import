@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://ljmnd76c7jm0"
-path="res://.godot/imported/LegIK.glb-6fa2574d97dc68089bc76f18d54596eb.scn"
+uid="uid://drx8kwqmn31uk"
+path="res://.godot/imported/LegBones.glb-cfdec241744a9fd4e60ff9c3fcfbc7d7.scn"
 
 [deps]
 
-source_file="res://Player/BaseParts/Models/LegIK.glb"
-dest_files=["res://.godot/imported/LegIK.glb-6fa2574d97dc68089bc76f18d54596eb.scn"]
+source_file="res://Player/BaseParts/Models/LegBones.glb"
+dest_files=["res://.godot/imported/LegBones.glb-cfdec241744a9fd4e60ff9c3fcfbc7d7.scn"]
 
 [params]
 

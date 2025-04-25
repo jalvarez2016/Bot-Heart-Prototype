@@ -1,24 +1,82 @@
-[gd_scene load_steps=2 format=3 uid="uid://x2dddwu68s1b"]
+[gd_scene load_steps=5 format=3 uid="uid://x2dddwu68s1b"]
 
-[ext_resource type="PackedScene" uid="uid://ljmnd76c7jm0" path="res://Player/BaseParts/Models/LegIK.glb" id="1_8tmb7"]
+[ext_resource type="PackedScene" uid="uid://drx8kwqmn31uk" path="res://Player/BaseParts/Models/LegBones.glb" id="1_8tmb7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_h3p65"]
+size = Vector3(1, 3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8tmb7"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rn1ri"]
+size = Vector3(0.5, 2, 0.5)
 
 [node name="BaseLeg" type="Node3D"]
 
 [node name="Marker3D" type="Marker3D" parent="."]
 
-[node name="LegIK" parent="Marker3D" instance=ExtResource("1_8tmb7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 0)
+[node name="LegBones" parent="Marker3D" instance=ExtResource("1_8tmb7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.182496, 0, 0.0453364)
 
-[node name="Cube_002" parent="Marker3D/LegIK/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.998853, -0.00148713, 0.0478565, 0.0203828, -0.891216, -0.453122, 0.0433243, 0.453577, -0.890163, 0.127715, 5.91979, -1.10239)
+[node name="ThighLook" type="LookAtModifier3D" parent="Marker3D/LegBones/Armature/Skeleton3D" index="0"]
+transform = Transform3D(1, 3.55271e-15, -2.38419e-07, 6.27474e-08, 0.964746, 0.263182, 2.30013e-07, -0.263181, 0.964746, 0, 0, 0)
+target_node = NodePath("../../../../ThighTarget")
+bone_name = "Bone"
+bone = 0
 
-[node name="Cube" parent="Marker3D/LegIK/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.499408, -0.023918, -0.00440385, -0.0222214, -0.411976, -0.282457, 0.00988307, 0.282319, -0.412551, 0.050561, 5.33088, 0.262497)
+[node name="Thigh" type="BoneAttachment3D" parent="Marker3D/LegBones/Armature/Skeleton3D" index="1"]
+transform = Transform3D(0.976074, -0.190179, -0.105413, 0.0572261, 0.692379, -0.719261, 0.209774, 0.69602, 0.686696, 0, 0, 0)
+bone_name = "Bone"
+bone_idx = 0
 
-[node name="Cube_001" parent="Marker3D/LegIK/Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.49981, 0.01323, -0.00382821, 0.0128416, -0.397422, 0.303135, 0.0049781, -0.303118, -0.397611, -0.065241, 2.61026, 1.45811)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker3D/LegBones/Armature/Skeleton3D/Thigh"]
+transform = Transform3D(1, -7.10543e-15, 8.52651e-14, 0, 1, 0, 0, -2.98023e-08, 1, 5.96046e-08, 1.80255, 0.256145)
+mesh = SubResource("BoxMesh_h3p65")
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Marker3D"]
-target_node = NodePath("../LegIK/Armature/Skeleton3D/Cube_002")
+[node name="CalveLook" type="LookAtModifier3D" parent="Marker3D/LegBones/Armature/Skeleton3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, -0.602068, -0.798445, 0, 0.798445, -0.602068, -0.182496, 2.48443, -3.21948)
+target_node = NodePath("../../../../CalveTarget")
+bone_name = "Bone.001"
+bone = 1
 
-[editable path="Marker3D/LegIK"]
+[node name="Calve" type="BoneAttachment3D" parent="Marker3D/LegBones/Armature/Skeleton3D" index="3"]
+transform = Transform3D(-0.991627, -0.0604235, 0.114125, -0.00328304, 0.895285, 0.445482, -0.129092, 0.441377, -0.887987, -0.52229, 1.90148, 1.91148)
+bone_name = "Bone.001"
+bone_idx = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker3D/LegBones/Armature/Skeleton3D/Calve"]
+transform = Transform3D(1, -2.23517e-08, 7.45058e-09, -4.47035e-08, 1, -2.98023e-08, 3.72529e-08, 2.98023e-08, 1, 0, 1, 0.05)
+mesh = SubResource("BoxMesh_8tmb7")
+
+[node name="AnkleLook" type="LookAtModifier3D" parent="Marker3D/LegBones/Armature/Skeleton3D" index="4"]
+target_node = NodePath("../../../../AnkleTarget")
+bone_name = "Bone.002"
+bone = 2
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 0.0
+primary_damp_threshold = 1.0
+secondary_limit_angle = 6.28319
+secondary_damp_threshold = 1.0
+
+[node name="Foot" type="BoneAttachment3D" parent="Marker3D/LegBones/Armature/Skeleton3D" index="5"]
+transform = Transform3D(-0.991627, 0.0336161, 0.124682, -0.0032828, 0.958648, -0.284575, -0.129092, -0.282602, -0.950511, -0.675312, 4.16879, 3.02927)
+bone_name = "Bone.002"
+bone_idx = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker3D/LegBones/Armature/Skeleton3D/Foot"]
+transform = Transform3D(1, 0, 2.79397e-09, -1.49012e-08, 1, -3.72529e-09, 1.86265e-09, -7.45058e-09, 1, 0.232291, 1.00211, -0.053251)
+mesh = SubResource("BoxMesh_rn1ri")
+
+[node name="CalveTarget" type="Marker3D" parent="Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53821, -2.09097)
+
+[node name="AnkleTarget" type="Marker3D" parent="Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.327304, 0.269851, -0.0698841)
+
+[node name="ThighTarget" type="Marker3D" parent="Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.76531, 0.323812)
+
+[node name="Targets" type="Node3D" parent="Marker3D"]
+
+[editable path="Marker3D/LegBones"]
