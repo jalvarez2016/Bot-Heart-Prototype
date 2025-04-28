@@ -2,12 +2,9 @@ extends CharacterBody3D
 @export var gravity := 50.0
 @export var speed := 8.0
 @export var jump_force := 20.0
-@export var health := 100
+@export var HeartHealth := 100
+@export var LegController: Node3D
 
-@export var RightArm : bool
-@export var LeftArm : bool
-@export var RightLeg : bool
-@export var LeftLeg : bool
 @onready var RightArmAnchor : Marker3D = $MeshInstance3D/AnchorPoints/RightArm
 @onready var LeftArmAnchor : Marker3D = $MeshInstance3D/AnchorPoints/LeftArm
 @onready var RightLegAnchor : Marker3D = $MeshInstance3D/AnchorPoints/RightLeg
@@ -22,18 +19,10 @@ var isAlive : bool = true
 var isSprinting : bool = false
 var dodging : bool = false
 
-var defaultArm = preload("res://Player/BaseParts/Attachments/BaseArm.tscn")
-var defaultLeg = preload("res://Player/BaseParts/Attachments/BaseLeg.tscn")
 
 func _ready() -> void:
-	if RightArm:
-		var arm = defaultArm.instantiate()
-		RightArmAnchor.add_child(arm)
-		pass
-	if LeftLeg:
-		var leg = defaultLeg.instantiate()
-		LeftLegAnchor.add_child(leg)
 	pass
+
 
 func _process(delta: float) -> void:
 	
@@ -42,6 +31,7 @@ func _process(delta: float) -> void:
 		velocity.y -= gravity * delta
 
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
+		LegController.jump()
 		velocity.y = jump_force
 	
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
@@ -52,12 +42,14 @@ func _process(delta: float) -> void:
 	if move_direction:
 		# sprinting
 		if Input.is_action_pressed("sprint"):
+			LegController.walk()
 			isSprinting = true
 			velocity.x = move_direction.x * speed * 1.8
 			velocity.z = move_direction.z * speed * 1.8
 			
 		# walking
 		else:
+			LegController.walk()
 			isSprinting = false
 			velocity.x = move_direction.x * speed
 			velocity.z = move_direction.z * speed
@@ -65,6 +57,7 @@ func _process(delta: float) -> void:
 		
 	# standing still
 	else:
+		LegController.stop()
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 	

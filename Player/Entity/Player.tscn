@@ -1,15 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://7mmvptvm8oaa"]
+[gd_scene load_steps=17 format=3 uid="uid://7mmvptvm8oaa"]
 
 [ext_resource type="Script" uid="uid://bifwf55i8nkye" path="res://Player/Entity/Camera.gd" id="1_f71a7"]
+[ext_resource type="Script" uid="uid://bng6h2rgf8swi" path="res://Player/Entity/player.gd" id="1_hdlnp"]
 [ext_resource type="Script" uid="uid://bds8xwudn2nns" path="res://Player/Entity/playerController.gd" id="1_mahfv"]
 [ext_resource type="Shader" uid="uid://deu4icylu3kyq" path="res://Player/Entity/Shaders/PixelEffect.gdshader" id="2_4msa4"]
+[ext_resource type="Script" uid="uid://blr8fm5ljldtk" path="res://Player/Entity/leg_controller.gd" id="5_stiq3"]
+[ext_resource type="Script" uid="uid://cp6rm5x1st4uk" path="res://Player/Entity/arm_controller.gd" id="6_82htd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jgdqt"]
 size = Vector3(2, 2, 2)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mahfv"]
 radius = 1.65229
-height = 8.0
+height = 6.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_jgdqt"]
 size = Vector3(2, 2, 2)
@@ -40,59 +43,78 @@ size = Vector2(9, 5)
 render_priority = 0
 shader = ExtResource("2_4msa4")
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="Node3D"]
+script = ExtResource("1_hdlnp")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("LegController")]
 script = ExtResource("1_mahfv")
+LegController = NodePath("LegController")
 
-[node name="Hitbox" type="Area3D" parent="."]
+[node name="Hitbox" type="Area3D" parent="CharacterBody3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Hitbox"]
 shape = SubResource("BoxShape3D_jgdqt")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.94805, 0)
 shape = SubResource("CapsuleShape3D_mahfv")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
 mesh = SubResource("BoxMesh_jgdqt")
+skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_mahfv")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 mesh = SubResource("SphereMesh_jgdqt")
 surface_material_override/0 = SubResource("StandardMaterial3D_jgdqt")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("SphereMesh_f71a7")
 surface_material_override/0 = SubResource("StandardMaterial3D_hdlnp")
 
-[node name="AnchorPoints" type="Node3D" parent="MeshInstance3D"]
+[node name="AnchorPoints" type="Node3D" parent="CharacterBody3D/MeshInstance3D"]
 
-[node name="LeftArm" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+[node name="LeftArm" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
 
-[node name="RightArm" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, 0)
+[node name="RightArm" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
 
-[node name="LeftLeg" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -1, 0)
+[node name="LeftLeg" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -1, 0)
 
-[node name="RightLeg" type="Marker3D" parent="MeshInstance3D/AnchorPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 0)
+[node name="RightLeg" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 0)
 
-[node name="Head" type="Node3D" parent="."]
+[node name="Head" type="Node3D" parent="CharacterBody3D"]
 
-[node name="SpringArm3D" type="SpringArm3D" parent="Head"]
+[node name="SpringArm3D" type="SpringArm3D" parent="CharacterBody3D/Head"]
 spring_length = 9.0
 margin = 0.725
 script = ExtResource("1_f71a7")
 
-[node name="Camera3D" type="Camera3D" parent="Head/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/Head/SpringArm3D"]
 current = true
 near = 0.001
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/SpringArm3D/Camera3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1)
-visible = false
 mesh = SubResource("PlaneMesh_mahfv")
 surface_material_override/0 = SubResource("ShaderMaterial_hdlnp")
+
+[node name="LegController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftLegAnchor", "RightLegAnchor", "timer")]
+script = ExtResource("5_stiq3")
+LeftLegAnchor = NodePath("../MeshInstance3D/AnchorPoints/LeftLeg")
+RightLegAnchor = NodePath("../MeshInstance3D/AnchorPoints/RightLeg")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="CharacterBody3D/LegController"]
+wait_time = 0.8
+one_shot = true
+
+[node name="ArmController" type="Node3D" parent="CharacterBody3D"]
+script = ExtResource("6_82htd")
+
+[connection signal="timeout" from="CharacterBody3D/LegController/Timer" to="CharacterBody3D/LegController" method="_on_timer_timeout"]
