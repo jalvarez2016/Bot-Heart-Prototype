@@ -54,9 +54,10 @@ script = ExtResource("1_hdlnp")
 LegController = NodePath("CharacterBody3D/LegController")
 ArmController = NodePath("CharacterBody3D/ArmController")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("LegController")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("LegController", "ArmController")]
 script = ExtResource("1_mahfv")
 LegController = NodePath("LegController")
+ArmController = NodePath("ArmController")
 
 [node name="Hitbox" type="Area3D" parent="CharacterBody3D"]
 
@@ -90,10 +91,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_82htd")
 [node name="AnchorPoints" type="Node3D" parent="CharacterBody3D/MeshInstance3D"]
 
 [node name="LeftArm" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
 
 [node name="RightArm" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
 
 [node name="LeftLeg" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -1, 0)
@@ -127,7 +128,12 @@ timer = NodePath("Timer")
 wait_time = 0.8
 one_shot = true
 
-[node name="ArmController" type="Node3D" parent="CharacterBody3D"]
+[node name="ArmController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftArmAnchor", "RightArmAnchor")]
 script = ExtResource("6_82htd")
+LeftArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/LeftArm")
+RightArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/RightArm")
+
+[node name="Timer" type="Timer" parent="CharacterBody3D/ArmController"]
+wait_time = 0.2
 
 [connection signal="timeout" from="CharacterBody3D/LegController/Timer" to="CharacterBody3D/LegController" method="_on_timer_timeout"]

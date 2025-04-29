@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var jump_force := 20.0
 @export var HeartHealth := 100
 @export var LegController: Node3D
+@export var ArmController: Node3D
 
 @onready var RightArmAnchor : Marker3D = $MeshInstance3D/AnchorPoints/RightArm
 @onready var LeftArmAnchor : Marker3D = $MeshInstance3D/AnchorPoints/LeftArm
@@ -20,11 +21,16 @@ var isSprinting : bool = false
 var dodging : bool = false
 
 
-func _ready() -> void:
+func attack_process() -> void:
+	if Input.is_action_just_pressed("basic_attack"):
+		ArmController.action('basic')
+	elif Input.is_action_just_released("basic_attack"):
+		ArmController.action_stop('basic')
 	pass
 
 
 func _process(delta: float) -> void:
+	attack_process()
 	
 	# Add the gravity.
 	if not is_on_floor():

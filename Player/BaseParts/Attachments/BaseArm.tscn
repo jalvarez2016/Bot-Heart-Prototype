@@ -1,16 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://coap37bco1m7u"]
+[gd_scene load_steps=4 format=3 uid="uid://coap37bco1m7u"]
 
 [ext_resource type="Script" uid="uid://ct0qlu08mv1m7" path="res://Player/BaseParts/Attachments/base_arm.gd" id="1_7x5qj"]
+[ext_resource type="Script" uid="uid://bh6q10sbuc08b" path="res://Player/BaseParts/Attachments/gun.gd" id="2_ljtwe"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ljtwe"]
-points = PackedVector3Array(2, 0.5, 0.5, 2, 0.5, -0.5, -2, 0.5, 0.5, 2, -0.5, 0.5, 2, -0.5, -0.5, -2, 0.5, -0.5, -2, -0.5, 0.5, -2, -0.5, -0.5)
+[sub_resource type="BoxMesh" id="BoxMesh_7x5qj"]
+size = Vector3(2, 2, 2)
 
-[node name="BaseArm" type="Node3D"]
+[node name="BaseArm" type="Node3D" node_paths=PackedStringArray("gunController")]
 script = ExtResource("1_7x5qj")
+isGun = true
+gunController = NodePath("ShotOrigin")
 
-[node name="Marker3D" type="Marker3D" parent="."]
+[node name="Shoulder" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_7x5qj")
 
-[node name="Area3D" type="Area3D" parent="Marker3D"]
+[node name="ShotOrigin" type="Node3D" parent="." node_paths=PackedStringArray("ArmController", "cooldown")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+script = ExtResource("2_ljtwe")
+ArmController = NodePath("..")
+cooldown = NodePath("Timer")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Marker3D/Area3D"]
-shape = SubResource("ConvexPolygonShape3D_ljtwe")
+[node name="Timer" type="Timer" parent="ShotOrigin"]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="ShotOrigin/Timer" to="ShotOrigin" method="_on_timer_timeout"]
