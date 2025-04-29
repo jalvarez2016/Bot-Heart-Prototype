@@ -8,7 +8,7 @@ var defaultLeg = preload("res://Player/BaseParts/Attachments/BaseLeg.tscn")
 var LeftLegAnimator: AnimationPlayer
 var RightLegAnimator: AnimationPlayer
 var walking: bool
-var jumping: bool
+@export var jumping: bool
 var attacking: bool
 
 
@@ -27,30 +27,34 @@ func addRightLeg() -> void:
 
 
 func walk() -> void:
-	if !jumping:
+	if !jumping && !attacking:
 		LeftLegAnimator.play('Walk')
 		if walking == false:
 			timer.start()
-			print('timer started')
 			walking = true
 
 
 func jump() -> void:
+	print('jump')
 	LeftLegAnimator.play('Jump')
 	RightLegAnimator.play('Jump')
+	walking = false
+	jumping = true
 
 
 func stop() -> void:
 	LeftLegAnimator.play('Idle')
 	RightLegAnimator.play('Idle')
 	walking = false
+	jumping = false
+	attacking = false
 
 
 func _on_timer_timeout() -> void:
 	if walking:
-		print('timer ended')
 		RightLegAnimator.play('Walk')
+
 
 func attack() -> void:
 	attacking = true
-	pass
+	LeftLegAnimator.play('Kick')

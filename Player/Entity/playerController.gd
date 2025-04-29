@@ -29,7 +29,10 @@ func _process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-
+	
+	if is_on_floor() && LegController.jumping:
+		print('stop jumping')
+		LegController.stop()
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		LegController.jump()
 		velocity.y = jump_force
@@ -57,7 +60,8 @@ func _process(delta: float) -> void:
 		
 	# standing still
 	else:
-		LegController.stop()
+		if !LegController.jumping:
+			LegController.stop()
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 	
