@@ -10,7 +10,6 @@ var shooting: bool = false
 
 func toggle_active() -> void:
 	isActive = !isActive
-	print("activate")
 
 
 func shoot() -> void:
@@ -19,9 +18,12 @@ func shoot() -> void:
 	if ArmController.isGun:
 		print('shootin')
 		animator.play('Arm Shoot')
-		var bullet = preloadedBullet.instantiate()
+		var bullet: Node3D = preloadedBullet.instantiate()
 		get_tree().root.get_child(0).add_child(bullet)
-		bullet.global_transform = bulletSpawnPoint.global_transform
+		bullet.global_position = bulletSpawnPoint.global_position
+		var generalMesh = get_tree().root.get_child(0).get_node("Player").get_node("CharacterBody3D").mesh
+		bullet.rotation.y = generalMesh.global_rotation.y
+		print('bullet rotation: ', bullet.rotation.y)
 
 		bullet.fire()
 		shooting = true
