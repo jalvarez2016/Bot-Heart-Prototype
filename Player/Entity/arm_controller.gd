@@ -2,7 +2,6 @@ extends Node3D
 
 @export var LeftArmAnchor: Marker3D
 @export var RightArmAnchor: Marker3D
-@export var timer: Timer
 
 var defaultArm = preload("res://Player/BaseParts/Attachments/BaseArm.tscn")
 var LeftArmAnimator: AnimationPlayer
@@ -16,22 +15,26 @@ func addLeftArm() -> void:
 	var arm = defaultArm.instantiate()
 	LeftArmAnchor.add_child(arm)
 	leftArm = arm
-	#LeftArmAnimator = arm.animator
-	#LeftArmAnimator.play('Idle')
+	arm.isLeftArm = true
+	arm.set_arms()
 
 
 func addRightArm() -> void:
 	var arm = defaultArm.instantiate()
 	RightArmAnchor.add_child(arm)
 	rightArm = arm
-	#RightArmAnimator = arm.animator
-	#RightArmAnimator.play('Idle')
+	arm.isLeftArm = false
+	arm.set_arms()
 
 func action(actionType: String) -> void:
 	if leftArm:
 		leftArm.action(actionType)
 	else:
 		print('missing left arm')
+	if rightArm:
+		rightArm.action(actionType)
+	else:
+		print('missing right arm')
 
 
 func action_stop(actionType: String) -> void:
@@ -39,4 +42,8 @@ func action_stop(actionType: String) -> void:
 		leftArm.action_stop(actionType)
 	else:
 		print('missing left arm')
+	if rightArm:
+		rightArm.action_stop(actionType)
+	else:
+		print('missing right arm')
 	

@@ -15,7 +15,7 @@ extends CharacterBody3D
 @onready var spring_arm: SpringArm3D = $Head/SpringArm3D
 @onready var mesh : MeshInstance3D = $MeshInstance3D
 
-var angular_acceleration := 7
+var angular_acceleration := 2
 var isAlive : bool = true
 var isSprinting : bool = false
 var dodging : bool = false
