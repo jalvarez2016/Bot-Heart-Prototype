@@ -21,6 +21,7 @@ gunControllers = [NodePath("RightArm/Armature_002/Skeleton3D/Cube_009/ShotOrigin
 isGun = true
 leftArmMesh = NodePath("LeftArm")
 rightArmMesh = NodePath("RightArm")
+dropRef = "C:/Users/jason/Saved Games/Godot Games/Bot-Heart-Prototype/Player/BaseParts/Drops/BaseArm.tscn"
 
 [node name="Shoulder" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_7x5qj")

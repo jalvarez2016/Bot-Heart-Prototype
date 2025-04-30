@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dgdxgxjc2yo7o"]
+[gd_scene load_steps=8 format=3 uid="uid://dgdxgxjc2yo7o"]
 
 [ext_resource type="PackedScene" uid="uid://7mmvptvm8oaa" path="res://Player/Entity/Player.tscn" id="1_qcrmj"]
+[ext_resource type="PackedScene" uid="uid://5fq63xnuu27o" path="res://Player/BaseParts/Drops/BaseArm.tscn" id="2_edu2i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qcrmj"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -45,3 +46,6 @@ collision_mask = 255
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_qcrmj")
+
+[node name="BaseArm" parent="." instance=ExtResource("2_edu2i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.14895, 8.12754, 6.75602)

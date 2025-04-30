@@ -3,6 +3,7 @@ extends Node3D
 @export var isActive: bool
 @export var bulletDirection: Marker3D
 @export var bullet: RigidBody3D
+@export var dropRef: String
 
 func fire() -> void:
 	var generalDirection:= bulletDirection.global_position - self.global_position

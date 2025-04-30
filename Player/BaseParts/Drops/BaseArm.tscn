@@ -1,31 +1,50 @@
 [gd_scene load_steps=5 format=3 uid="uid://5fq63xnuu27o"]
 
 [ext_resource type="Script" uid="uid://dqp5puefmfdfj" path="res://Player/BaseParts/base_arm.gd" id="1_5aqte"]
+[ext_resource type="PackedScene" uid="uid://t4nrgxeayk7g" path="res://Player/BaseParts/Models/RightArm.glb" id="2_llvp5"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_n15fn"]
-size = Vector3(4, 1, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_llvp5"]
+size = Vector3(2.146, 1.4549, 2.55034)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n15fn"]
-diffuse_mode = 3
-albedo_color = Color(0.313726, 1, 1, 1)
+[sub_resource type="SphereShape3D" id="SphereShape3D_llvp5"]
+radius = 3.0
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_n15fn"]
-points = PackedVector3Array(2, 0.5, 0.5, 2, 0.5, -0.5, -2, 0.5, 0.5, 2, -0.5, 0.5, 2, -0.5, -0.5, -2, 0.5, -0.5, -2, -0.5, 0.5, -2, -0.5, -0.5)
-
-[node name="BaseArm" type="Node3D" node_paths=PackedStringArray("anchor")]
+[node name="BaseArm" type="Node3D"]
 script = ExtResource("1_5aqte")
-anchor = NodePath("Marker3D")
+armType = "res://Player/BaseParts/Attachments/BaseArm.tscn"
 
-[node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
 
-[node name="RigidBody3D" type="RigidBody3D" parent="Marker3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+[node name="RightArm" parent="RigidBody3D" instance=ExtResource("2_llvp5")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 3, -2, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker3D/RigidBody3D"]
-mesh = SubResource("BoxMesh_n15fn")
-skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_n15fn")
+[node name="Skeleton3D" parent="RigidBody3D/RightArm/Armature_002" index="0"]
+bones/1/rotation = Quaternion(-0.427665, 0.563119, 0.563119, 0.427665)
+bones/2/rotation = Quaternion(8.88278e-08, 4.67183e-08, -0.787554, 0.616246)
+bones/3/rotation = Quaternion(-1.64091e-09, 7.03783e-10, -0.00332705, 0.999994)
+bones/7/position = Vector3(-1.60891, 2, -1.59789)
+bones/7/rotation = Quaternion(-0.689384, -0.15732, -0.15732, 0.689384)
+bones/8/position = Vector3(0.863258, 2, -0.992635)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Marker3D/RigidBody3D"]
-shape = SubResource("ConvexPolygonShape3D_n15fn")
+[node name="Cube_009" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D" index="0"]
+transform = Transform3D(3.24613e-08, 0.163103, 0.000505475, -0.251046, 2.21926e-08, -5.75615e-08, -8.32044e-08, -0.000380498, 0.216677, -1.59754, 2.05954, -1.19789)
+
+[node name="Cube_008" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D" index="1"]
+transform = Transform3D(4.24664e-08, -0.151132, 0.00696117, -0.226713, -1.63057e-08, -1.62274e-07, -8.34735e-08, 0.00175353, 0.59996, -1.59439, 2.05177, -0.181838)
+
+[node name="Cube_007" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D" index="2"]
+transform = Transform3D(-8.74268e-09, 0.440212, 0.164644, -0.375915, -1.31471e-08, 6.21514e-09, 6.38998e-09, -0.164644, 0.440212, -0.480082, 2.05177, 0.156479)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(0.981376, 0, -0.192093, 0, 1, 0, 0.192093, 0, 0.981376, -0.0314324, 0.227448, 0.371205)
+shape = SubResource("BoxShape3D_llvp5")
+
+[node name="Area3D" type="Area3D" parent="RigidBody3D" groups=["Attachment"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/Area3D"]
+shape = SubResource("SphereShape3D_llvp5")
+
+[connection signal="body_entered" from="RigidBody3D/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="RigidBody3D/Area3D" to="." method="_on_area_3d_body_exited"]
+
+[editable path="RigidBody3D/RightArm"]

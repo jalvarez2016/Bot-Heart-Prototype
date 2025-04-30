@@ -9,6 +9,7 @@ extends Node3D
 @export var isLeftArm: bool
 @export var leftArmMesh: Node3D
 @export var rightArmMesh: Node3D
+@export var dropRef: String
 
 var actionType = {
 	'MAIN': 'main',

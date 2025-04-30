@@ -1,5 +1,6 @@
 extends SpringArm3D
 @export var mouse_sensetivity := 0.005
+@export var active: bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -7,7 +8,7 @@ func _ready():
 	#pass
 
 func _unhandled_input(event: InputEvent):
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion && active:
 		rotation.x -= event.relative.y * mouse_sensetivity
 		rotation.x = clamp(rotation.x, deg_to_rad(-90), deg_to_rad(50))
 		

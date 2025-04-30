@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://7mmvptvm8oaa"]
+[gd_scene load_steps=23 format=3 uid="uid://7mmvptvm8oaa"]
 
 [ext_resource type="Script" uid="uid://bifwf55i8nkye" path="res://Player/Entity/Camera.gd" id="1_f71a7"]
 [ext_resource type="Script" uid="uid://bng6h2rgf8swi" path="res://Player/Entity/player.gd" id="1_hdlnp"]
@@ -6,6 +6,8 @@
 [ext_resource type="Shader" uid="uid://deu4icylu3kyq" path="res://Player/Entity/Shaders/PixelEffect.gdshader" id="2_4msa4"]
 [ext_resource type="Script" uid="uid://blr8fm5ljldtk" path="res://Player/Entity/leg_controller.gd" id="5_stiq3"]
 [ext_resource type="Script" uid="uid://cp6rm5x1st4uk" path="res://Player/Entity/arm_controller.gd" id="6_82htd"]
+[ext_resource type="Script" uid="uid://c0d6lg8j3tay6" path="res://Player/Entity/equipPartsController.gd" id="7_jmv62"]
+[ext_resource type="Script" uid="uid://nffytd66dtd6" path="res://Player/Entity/removePartsController.gd" id="8_4mymh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jgdqt"]
 size = Vector3(2, 2, 2)
@@ -49,17 +51,25 @@ size = Vector2(9, 5)
 render_priority = 0
 shader = ExtResource("2_4msa4")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_82htd"]
+size = Vector2(575.75, 648)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jmv62"]
+font_size = 32
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Player" type="Node3D" node_paths=PackedStringArray("LegController", "ArmController")]
 script = ExtResource("1_hdlnp")
 LegController = NodePath("CharacterBody3D/LegController")
 ArmController = NodePath("CharacterBody3D/ArmController")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("LegController", "ArmController")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("LegController", "ArmController") groups=["Player"]]
 script = ExtResource("1_mahfv")
 LegController = NodePath("LegController")
 ArmController = NodePath("ArmController")
 
-[node name="Hitbox" type="Area3D" parent="CharacterBody3D"]
+[node name="Hitbox" type="Area3D" parent="CharacterBody3D" groups=["Player"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Hitbox"]
 shape = SubResource("BoxShape3D_jgdqt")
@@ -105,7 +115,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 0)
 [node name="Head" type="Node3D" parent="CharacterBody3D"]
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CharacterBody3D/Head"]
-spring_length = 9.0
+spring_length = 15.0
 margin = 0.725
 script = ExtResource("1_f71a7")
 
@@ -128,12 +138,122 @@ timer = NodePath("Timer")
 wait_time = 0.8
 one_shot = true
 
-[node name="ArmController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftArmAnchor", "RightArmAnchor")]
+[node name="ArmController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftArmAnchor", "RightArmAnchor", "addPartsUI", "removeParts")]
 script = ExtResource("6_82htd")
 LeftArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/LeftArm")
 RightArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/RightArm")
+addPartsUI = NodePath("EquipController")
+removeParts = NodePath("RemoveController")
 
 [node name="Timer" type="Timer" parent="CharacterBody3D/ArmController"]
 wait_time = 0.2
 
+[node name="EquipController" type="AspectRatioContainer" parent="CharacterBody3D/ArmController" node_paths=PackedStringArray("leftArea", "rightArea", "playerCamera")]
+visible = false
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("7_jmv62")
+leftArea = NodePath("HBoxContainer/Left")
+rightArea = NodePath("HBoxContainer/Right")
+playerCamera = NodePath("../../Head/SpringArm3D")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterBody3D/ArmController/EquipController"]
+layout_mode = 2
+
+[node name="Left" type="Area2D" parent="CharacterBody3D/ArmController/EquipController/HBoxContainer"]
+position = Vector2(-252, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody3D/ArmController/EquipController/HBoxContainer/Left"]
+position = Vector2(288.125, 323)
+shape = SubResource("RectangleShape2D_82htd")
+
+[node name="Left" type="Label" parent="CharacterBody3D/ArmController/EquipController/HBoxContainer/Left"]
+offset_left = 252.0
+offset_top = 312.0
+offset_right = 282.0
+offset_bottom = 335.0
+text = "Left"
+
+[node name="Right" type="Area2D" parent="CharacterBody3D/ArmController/EquipController/HBoxContainer"]
+position = Vector2(-252, 0)
+
+[node name="Right" type="Label" parent="CharacterBody3D/ArmController/EquipController/HBoxContainer/Right"]
+offset_left = 864.0
+offset_top = 312.0
+offset_right = 905.0
+offset_bottom = 361.0
+size_flags_horizontal = 4
+text = "Right
+"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody3D/ArmController/EquipController/HBoxContainer/Right"]
+position = Vector2(864.25, 323)
+shape = SubResource("RectangleShape2D_82htd")
+
+[node name="Label" type="Label" parent="CharacterBody3D/ArmController/EquipController"]
+layout_mode = 2
+text = "Equip
+"
+label_settings = SubResource("LabelSettings_jmv62")
+horizontal_alignment = 1
+
+[node name="RemoveController" type="AspectRatioContainer" parent="CharacterBody3D/ArmController" node_paths=PackedStringArray("leftArea", "rightArea", "playerCamera")]
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("8_4mymh")
+leftArea = NodePath("HBoxContainer/Left")
+rightArea = NodePath("HBoxContainer/Right")
+playerCamera = NodePath("../../Head/SpringArm3D")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterBody3D/ArmController/RemoveController"]
+layout_mode = 2
+
+[node name="Left" type="Area2D" parent="CharacterBody3D/ArmController/RemoveController/HBoxContainer"]
+position = Vector2(-252, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody3D/ArmController/RemoveController/HBoxContainer/Left"]
+position = Vector2(288.125, 323)
+shape = SubResource("RectangleShape2D_82htd")
+
+[node name="Left" type="Label" parent="CharacterBody3D/ArmController/RemoveController/HBoxContainer/Left"]
+offset_left = 252.0
+offset_top = 312.0
+offset_right = 282.0
+offset_bottom = 335.0
+text = "Left"
+
+[node name="Right" type="Area2D" parent="CharacterBody3D/ArmController/RemoveController/HBoxContainer"]
+position = Vector2(-252, 0)
+
+[node name="Right" type="Label" parent="CharacterBody3D/ArmController/RemoveController/HBoxContainer/Right"]
+offset_left = 864.0
+offset_top = 312.0
+offset_right = 905.0
+offset_bottom = 361.0
+size_flags_horizontal = 4
+text = "Right
+"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody3D/ArmController/RemoveController/HBoxContainer/Right"]
+position = Vector2(864.25, 323)
+shape = SubResource("RectangleShape2D_82htd")
+
+[node name="Label" type="Label" parent="CharacterBody3D/ArmController/RemoveController"]
+layout_mode = 2
+text = "Remove"
+label_settings = SubResource("LabelSettings_jmv62")
+horizontal_alignment = 1
+
 [connection signal="timeout" from="CharacterBody3D/LegController/Timer" to="CharacterBody3D/LegController" method="_on_timer_timeout"]
+[connection signal="mouse_entered" from="CharacterBody3D/ArmController/EquipController/HBoxContainer/Left" to="CharacterBody3D/ArmController/EquipController" method="_on_left_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterBody3D/ArmController/EquipController/HBoxContainer/Left" to="CharacterBody3D/ArmController/EquipController" method="_on_left_mouse_exited"]
+[connection signal="mouse_entered" from="CharacterBody3D/ArmController/EquipController/HBoxContainer/Right" to="CharacterBody3D/ArmController/EquipController" method="_on_right_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterBody3D/ArmController/EquipController/HBoxContainer/Right" to="CharacterBody3D/ArmController/EquipController" method="_on_right_mouse_exited"]
+[connection signal="mouse_entered" from="CharacterBody3D/ArmController/RemoveController/HBoxContainer/Left" to="CharacterBody3D/ArmController/RemoveController" method="_on_left_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterBody3D/ArmController/RemoveController/HBoxContainer/Left" to="CharacterBody3D/ArmController/RemoveController" method="_on_left_mouse_exited"]
+[connection signal="mouse_entered" from="CharacterBody3D/ArmController/RemoveController/HBoxContainer/Right" to="CharacterBody3D/ArmController/RemoveController" method="_on_right_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterBody3D/ArmController/RemoveController/HBoxContainer/Right" to="CharacterBody3D/ArmController/RemoveController" method="_on_right_mouse_exited"]
