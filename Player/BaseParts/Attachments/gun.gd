@@ -16,14 +16,16 @@ func shoot() -> void:
 	if !isActive:
 		return
 	if ArmController.isGun:
-		print('shootin')
+		print(ArmController.isEnemyPart)
 		animator.play('Arm Shoot')
 		var bullet: Node3D = preloadedBullet.instantiate()
 		get_tree().root.get_child(0).add_child(bullet)
+		bullet.isEnemyBullet = ArmController.isEnemyPart
 		bullet.global_position = bulletSpawnPoint.global_position
-		var generalMesh = get_tree().root.get_child(0).get_node("Player").get_node("CharacterBody3D").mesh
+#		TODO: change to be entity controllers
+		#var generalMesh = get_tree().root.get_child(0).get_node("Player").get_node("CharacterBody3D").mesh
+		var generalMesh =  ArmController.ownerMesh
 		bullet.rotation.y = generalMesh.global_rotation.y
-		print('bullet rotation: ', bullet.rotation.y)
 
 		bullet.fire()
 		shooting = true
@@ -34,13 +36,10 @@ func stop_shooting() -> void:
 	if !isActive:
 		return
 	if ArmController.isGun:
-		print('stop shooting')
 		shooting = false
 		animator.play('Arm Idle')
 
 
 func _on_timer_timeout() -> void:
 	if shooting:
-		print('timer ran out')
 		shoot()
-	pass # Replace with function body.

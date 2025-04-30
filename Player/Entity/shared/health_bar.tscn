@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://7udxymqacxhy"]
+
+[ext_resource type="Script" uid="uid://5ke1tlkgopfe" path="res://Player/Entity/health_controller.gd" id="1_m11no"]
+
+[node name="HealthBar" type="ProgressBar"]
+offset_right = 576.0
+offset_bottom = 35.0
+step = 1.0
+value = 100.0
+script = ExtResource("1_m11no")

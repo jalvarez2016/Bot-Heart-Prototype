@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://7mmvptvm8oaa"]
+[gd_scene load_steps=24 format=3 uid="uid://7mmvptvm8oaa"]
 
 [ext_resource type="Script" uid="uid://bifwf55i8nkye" path="res://Player/Entity/Camera.gd" id="1_f71a7"]
 [ext_resource type="Script" uid="uid://bng6h2rgf8swi" path="res://Player/Entity/player.gd" id="1_hdlnp"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cp6rm5x1st4uk" path="res://Player/Entity/arm_controller.gd" id="6_82htd"]
 [ext_resource type="Script" uid="uid://c0d6lg8j3tay6" path="res://Player/Entity/equipPartsController.gd" id="7_jmv62"]
 [ext_resource type="Script" uid="uid://nffytd66dtd6" path="res://Player/Entity/removePartsController.gd" id="8_4mymh"]
+[ext_resource type="PackedScene" uid="uid://7udxymqacxhy" path="res://Player/Entity/shared/health_bar.tscn" id="9_dd8ie"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jgdqt"]
 size = Vector3(2, 2, 2)
@@ -64,8 +65,9 @@ script = ExtResource("1_hdlnp")
 LegController = NodePath("CharacterBody3D/LegController")
 ArmController = NodePath("CharacterBody3D/ArmController")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("LegController", "ArmController") groups=["Player"]]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("healthManager", "LegController", "ArmController") groups=["Player"]]
 script = ExtResource("1_mahfv")
+healthManager = NodePath("HealthBar")
 LegController = NodePath("LegController")
 ArmController = NodePath("ArmController")
 
@@ -138,12 +140,13 @@ timer = NodePath("Timer")
 wait_time = 0.8
 one_shot = true
 
-[node name="ArmController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftArmAnchor", "RightArmAnchor", "addPartsUI", "removeParts")]
+[node name="ArmController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftArmAnchor", "RightArmAnchor", "addPartsUI", "removeParts", "mesh")]
 script = ExtResource("6_82htd")
 LeftArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/LeftArm")
 RightArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/RightArm")
 addPartsUI = NodePath("EquipController")
 removeParts = NodePath("RemoveController")
+mesh = NodePath("../MeshInstance3D")
 
 [node name="Timer" type="Timer" parent="CharacterBody3D/ArmController"]
 wait_time = 0.2
@@ -200,6 +203,7 @@ label_settings = SubResource("LabelSettings_jmv62")
 horizontal_alignment = 1
 
 [node name="RemoveController" type="AspectRatioContainer" parent="CharacterBody3D/ArmController" node_paths=PackedStringArray("leftArea", "rightArea", "playerCamera")]
+visible = false
 offset_right = 1152.0
 offset_bottom = 648.0
 size_flags_horizontal = 3
@@ -247,6 +251,8 @@ layout_mode = 2
 text = "Remove"
 label_settings = SubResource("LabelSettings_jmv62")
 horizontal_alignment = 1
+
+[node name="HealthBar" parent="CharacterBody3D" instance=ExtResource("9_dd8ie")]
 
 [connection signal="timeout" from="CharacterBody3D/LegController/Timer" to="CharacterBody3D/LegController" method="_on_timer_timeout"]
 [connection signal="mouse_entered" from="CharacterBody3D/ArmController/EquipController/HBoxContainer/Left" to="CharacterBody3D/ArmController/EquipController" method="_on_left_mouse_entered"]

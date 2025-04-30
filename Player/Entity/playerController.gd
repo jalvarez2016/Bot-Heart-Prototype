@@ -2,7 +2,7 @@ extends CharacterBody3D
 @export var gravity := 50.0
 @export var speed := 8.0
 @export var jump_force := 20.0
-@export var HeartHealth := 100
+@export var healthManager:= ProgressBar
 @export var LegController: Node3D
 @export var ArmController: Node3D
 
@@ -53,8 +53,8 @@ func _process(delta: float) -> void:
 		if Input.is_action_pressed("sprint"):
 			LegController.walk()
 			isSprinting = true
-			velocity.x = move_direction.x * speed * 1.8
-			velocity.z = move_direction.z * speed * 1.8
+			velocity.x = move_direction.x * speed * 5
+			velocity.z = move_direction.z * speed * 5
 			
 		# walking
 		else:

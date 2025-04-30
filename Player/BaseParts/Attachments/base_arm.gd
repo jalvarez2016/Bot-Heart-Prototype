@@ -10,6 +10,8 @@ extends Node3D
 @export var leftArmMesh: Node3D
 @export var rightArmMesh: Node3D
 @export var dropRef: String
+var isEnemyPart: bool = false
+var ownerMesh: MeshInstance3D
 
 var actionType = {
 	'MAIN': 'main',

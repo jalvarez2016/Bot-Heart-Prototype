@@ -1,0 +1,105 @@
+[gd_scene load_steps=11 format=3 uid="uid://gf1spk2e8cp4"]
+
+[ext_resource type="Script" uid="uid://pkafsomjxsk4" path="res://Enemies/BaseEnemy/enemy.gd" id="1_4ptpo"]
+[ext_resource type="Script" uid="uid://cgk8o3cxdoqlv" path="res://Enemies/BaseEnemy/enemyController.gd" id="1_7mokp"]
+[ext_resource type="Script" uid="uid://cpyt1nrqa4tan" path="res://Enemies/BaseEnemy/arms_controller.gd" id="2_pj4x8"]
+[ext_resource type="Script" uid="uid://f4f838f873sj" path="res://Enemies/BaseEnemy/leg_controller.gd" id="3_likth"]
+[ext_resource type="Script" uid="uid://4h43d4urhxh0" path="res://Enemies/BaseEnemy/health_controller.gd" id="5_o080o"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_xnhm7"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_likth"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xnhm7"]
+radius = 1.652
+height = 6.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_likth"]
+radius = 30.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4ptpo"]
+size = Vector3(6, 6.60699, 6)
+
+[node name="Enemy" type="Node3D" node_paths=PackedStringArray("LegController", "ArmController")]
+script = ExtResource("1_4ptpo")
+RightArm = true
+LeftArm = true
+RightLeg = true
+LeftLeg = true
+LegController = NodePath("CharacterBody3D/LegController")
+ArmController = NodePath("CharacterBody3D/ArmsController")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("LegController", "ArmController", "basicAttackTimer", "healthManager") groups=["Enemy"]]
+script = ExtResource("1_7mokp")
+speed = 1.0
+LegController = NodePath("LegController")
+ArmController = NodePath("ArmsController")
+basicAttackTimer = NodePath("ArmsController/BasicAttack")
+healthManager = NodePath("../HealthController")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TorusMesh_xnhm7")
+skeleton = NodePath("../..")
+
+[node name="AnchorPoints" type="Node3D" parent="CharacterBody3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="LeftArm" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
+
+[node name="RightArm" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
+
+[node name="LeftLeg" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -1, 0)
+
+[node name="RightLeg" type="Marker3D" parent="CharacterBody3D/MeshInstance3D/AnchorPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+mesh = SubResource("SphereMesh_likth")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.94805, 0)
+shape = SubResource("CapsuleShape3D_xnhm7")
+
+[node name="ArmsController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftArmAnchor", "RightArmAnchor", "mesh")]
+script = ExtResource("2_pj4x8")
+LeftArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/LeftArm")
+RightArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/RightArm")
+mesh = NodePath("../MeshInstance3D")
+
+[node name="BasicAttack" type="Timer" parent="CharacterBody3D/ArmsController"]
+one_shot = true
+
+[node name="LegController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftLegAnchor", "RightLegAnchor", "timer")]
+script = ExtResource("3_likth")
+LeftLegAnchor = NodePath("../MeshInstance3D/AnchorPoints/LeftLeg")
+RightLegAnchor = NodePath("../MeshInstance3D/AnchorPoints/RightLeg")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="CharacterBody3D/LegController"]
+wait_time = 0.8
+one_shot = true
+
+[node name="PlayerDetection" type="Area3D" parent="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/PlayerDetection"]
+shape = SubResource("SphereShape3D_likth")
+
+[node name="Hitbox" type="Area3D" parent="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6965, 0)
+shape = SubResource("BoxShape3D_4ptpo")
+
+[node name="HealthController" type="Node3D" parent="."]
+script = ExtResource("5_o080o")
+
+[connection signal="timeout" from="CharacterBody3D/ArmsController/BasicAttack" to="CharacterBody3D" method="_on_timer_timeout"]
+[connection signal="timeout" from="CharacterBody3D/LegController/Timer" to="CharacterBody3D/LegController" method="_on_timer_timeout"]
+[connection signal="body_entered" from="CharacterBody3D/PlayerDetection" to="CharacterBody3D" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="CharacterBody3D/PlayerDetection" to="CharacterBody3D" method="_on_area_3d_body_exited"]
+[connection signal="area_entered" from="CharacterBody3D/Hitbox" to="CharacterBody3D" method="_on_hitbox_area_entered"]
