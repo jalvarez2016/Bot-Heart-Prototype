@@ -88,17 +88,17 @@ func removeLeftArm() -> void:
 		return
 	var worldRef:= get_tree().root.get_child(0)
 	var armDropInstance: Node3D= load(leftArm.dropRef).instantiate()
-	worldRef.add_child(armDrop)
-	armDrop.global_position = leftArm.global_position
+	worldRef.add_child(armDropInstance)
+	armDropInstance.global_position = leftArm.global_position
 	leftArm.queue_free()
 
 func removeRightArm() -> void:
 	if !rightArm:
 		return
 	var worldRef:= get_tree().root.get_child(0)
-	var armDropIntance: Node3D= load(rightArm.dropRef).instantiate()
-	worldRef.add_child(armDrop)
-	armDrop.global_position = rightArm.global_position
+	var armDropInstance: Node3D= load(rightArm.dropRef).instantiate()
+	worldRef.add_child(armDropInstance)
+	armDropInstance.global_position = rightArm.global_position
 	rightArm.queue_free()
 
 

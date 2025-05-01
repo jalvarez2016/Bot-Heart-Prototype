@@ -14,6 +14,7 @@ var attacking: bool
 
 func addLeftLeg() -> void:
 	var leg = defaultLeg.instantiate()
+	leg.isEnemyPart = false
 	LeftLegAnchor.add_child(leg)
 	LeftLegAnimator = leg.animator
 	LeftLegAnimator.play('Idle')
@@ -21,6 +22,7 @@ func addLeftLeg() -> void:
 
 func addRightLeg() -> void:
 	var leg = defaultLeg.instantiate()
+	leg.isEnemyPart = false
 	RightLegAnchor.add_child(leg)
 	RightLegAnimator = leg.animator
 	RightLegAnimator.play('Idle')

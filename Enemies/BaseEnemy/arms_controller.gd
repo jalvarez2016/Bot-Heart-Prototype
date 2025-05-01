@@ -18,20 +18,20 @@ var active: bool = false
 func addLeftArm(newArm: Resource = defaultArm) -> void:
 	if !leftArm:
 		var arm = newArm.instantiate()
+		arm.isEnemyPart = true
 		LeftArmAnchor.add_child(arm)
 		leftArm = arm
 		arm.isLeftArm = true
-		arm.isEnemyPart = true
 		arm.ownerMesh = mesh
 		arm.set_arms()
 
 func addRightArm(newArm: Resource = defaultArm) -> void:
 	if !rightArm:
 		var arm = newArm.instantiate()
+		arm.isEnemyPart = true
 		RightArmAnchor.add_child(arm)
 		rightArm = arm
 		arm.isLeftArm = false
-		arm.isEnemyPart = true
 		arm.ownerMesh = mesh
 		arm.set_arms()
 
@@ -40,7 +40,7 @@ func removeLeftArm() -> void:
 	if !leftArm:
 		return
 	var worldRef:= get_tree().root.get_child(0)
-	var armDrop: Node3D= load(leftArm.dropRef).instantiate()
+	var armDrop: Node3D = load(leftArm.dropRef).instantiate()
 	worldRef.add_child(armDrop)
 	armDrop.global_position = leftArm.global_position
 	leftArm.queue_free()

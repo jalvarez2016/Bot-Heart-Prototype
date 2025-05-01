@@ -1,21 +1,52 @@
-[gd_scene load_steps=13 format=3 uid="uid://x2dddwu68s1b"]
+[gd_scene load_steps=19 format=3 uid="uid://x2dddwu68s1b"]
 
 [ext_resource type="Script" uid="uid://r0fxo111n4s6" path="res://Player/BaseParts/Attachments/base_leg.gd" id="1_rn1ri"]
 [ext_resource type="PackedScene" uid="uid://doa2evvheqn78" path="res://Player/BaseParts/Models/DefaultLeg.glb" id="2_rn1ri"]
+[ext_resource type="Shader" uid="uid://bppjol3b7vlff" path="res://Player/BaseParts/Attachments/BaseArmColor.gdshader" id="3_h3p65"]
+[ext_resource type="Script" uid="uid://cbwbilvgeeilp" path="res://Player/BaseParts/Attachments/MeshColor.gd" id="4_jl1rk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jl1rk"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_h3p65")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rn1ri"]
-albedo_color = Color(0.313726, 1, 1, 1)
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_jl1rk")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rn1ri"]
 size = Vector3(18.6903, 2.32281, 6.1015)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3xulh"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_h3p65")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h3p65"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_3xulh")
 albedo_color = Color(0.313726, 1, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h3p65"]
 size = Vector3(10, 5.86755, 2.19226)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ldihm"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_h3p65")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jl1rk"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_ldihm")
 albedo_color = Color(0.313726, 1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y11mx"]
@@ -24,7 +55,17 @@ albedo_color = Color(0, 0.313161, 0.313786, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_jl1rk"]
 size = Vector3(1, 2.69531, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y11mx"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_h3p65")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xulh"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_y11mx")
 albedo_color = Color(0.313726, 1, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y11mx"]
@@ -53,8 +94,11 @@ bones/10/rotation = Quaternion(0.317455, 1.13043e-07, 3.78436e-08, 0.948273)
 [node name="Cube_004" parent="DefaultLeg/Armature/Skeleton3D" index="0"]
 transform = Transform3D(0.0535549, -5.00913e-08, -3.60485e-08, -9.09741e-09, -0.228834, -0.148503, -5.48396e-09, 0.148503, -0.228834, 0.403411, 1.58733, -1.90483)
 
-[node name="Cube_004" parent="DefaultLeg/Armature/Skeleton3D/Cube_004" index="0"]
+[node name="Cube_004" parent="DefaultLeg/Armature/Skeleton3D/Cube_004" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
 surface_material_override/0 = SubResource("StandardMaterial3D_rn1ri")
+script = ExtResource("4_jl1rk")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
 
 [node name="Area3D" type="Area3D" parent="DefaultLeg/Armature/Skeleton3D/Cube_004" index="1" groups=["PlayerAttack", "PlayerHitBox"]]
 
@@ -65,8 +109,11 @@ shape = SubResource("BoxShape3D_rn1ri")
 [node name="Cube_003" parent="DefaultLeg/Armature/Skeleton3D" index="1"]
 transform = Transform3D(0.0535549, 1.34259e-08, 9.63658e-09, 6.24497e-09, -0.228834, -0.148503, -4.74864e-09, 0.148503, -0.228834, 0.403411, 1.58733, -1.90483)
 
-[node name="Cube_003" parent="DefaultLeg/Armature/Skeleton3D/Cube_003" index="0"]
+[node name="Cube_003" parent="DefaultLeg/Armature/Skeleton3D/Cube_003" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
 surface_material_override/0 = SubResource("StandardMaterial3D_h3p65")
+script = ExtResource("4_jl1rk")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
 
 [node name="Area3D" type="Area3D" parent="DefaultLeg/Armature/Skeleton3D/Cube_003" index="1" groups=["PlayerAttack", "PlayerHitBox"]]
 
@@ -77,9 +124,12 @@ shape = SubResource("BoxShape3D_h3p65")
 [node name="Cube_001" parent="DefaultLeg/Armature/Skeleton3D" index="2"]
 transform = Transform3D(1, -1.88764e-07, 1.69545e-07, 1.42506e-07, -0.3749, -0.927066, 1.47049e-07, 0.927066, -0.3749, 0.0427982, 2.38618, -1.03767)
 
-[node name="Cube_001" parent="DefaultLeg/Armature/Skeleton3D/Cube_001" index="0"]
+[node name="Cube_001" parent="DefaultLeg/Armature/Skeleton3D/Cube_001" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
 surface_material_override/0 = SubResource("StandardMaterial3D_jl1rk")
 surface_material_override/1 = SubResource("StandardMaterial3D_y11mx")
+script = ExtResource("4_jl1rk")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
 
 [node name="Area3D" type="Area3D" parent="DefaultLeg/Armature/Skeleton3D/Cube_001" index="1" groups=["PlayerHitBox"]]
 
@@ -90,8 +140,11 @@ shape = SubResource("BoxShape3D_jl1rk")
 [node name="Cube_002" parent="DefaultLeg/Armature/Skeleton3D" index="3"]
 transform = Transform3D(0.0456113, -2.13538e-08, 2.34191e-10, -9.4734e-09, -0.0274611, -0.0364181, 1.49401e-08, 0.0364181, -0.0274611, 0.326381, 2.60603, 0.205267)
 
-[node name="Cube_002" parent="DefaultLeg/Armature/Skeleton3D/Cube_002" index="0"]
+[node name="Cube_002" parent="DefaultLeg/Armature/Skeleton3D/Cube_002" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
 surface_material_override/0 = SubResource("StandardMaterial3D_3xulh")
+script = ExtResource("4_jl1rk")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
 
 [node name="Area3D" type="Area3D" parent="DefaultLeg/Armature/Skeleton3D/Cube_002" index="1" groups=["PlayerHitBox"]]
 

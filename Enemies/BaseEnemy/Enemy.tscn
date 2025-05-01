@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://gf1spk2e8cp4"]
+[gd_scene load_steps=13 format=3 uid="uid://gf1spk2e8cp4"]
 
 [ext_resource type="Script" uid="uid://pkafsomjxsk4" path="res://Enemies/BaseEnemy/enemy.gd" id="1_4ptpo"]
 [ext_resource type="Script" uid="uid://cgk8o3cxdoqlv" path="res://Enemies/BaseEnemy/enemyController.gd" id="1_7mokp"]
@@ -8,7 +8,13 @@
 
 [sub_resource type="TorusMesh" id="TorusMesh_xnhm7"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o080o"]
+albedo_color = Color(1, 0.319655, 0.380352, 1)
+
 [sub_resource type="SphereMesh" id="SphereMesh_likth"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fgfc8"]
+albedo_color = Color(1, 0.319655, 0.380352, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xnhm7"]
 radius = 1.652
@@ -41,6 +47,7 @@ healthManager = NodePath("../HealthController")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("TorusMesh_xnhm7")
 skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_o080o")
 
 [node name="AnchorPoints" type="Node3D" parent="CharacterBody3D/MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
@@ -60,6 +67,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 0)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 mesh = SubResource("SphereMesh_likth")
+surface_material_override/0 = SubResource("StandardMaterial3D_fgfc8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.94805, 0)

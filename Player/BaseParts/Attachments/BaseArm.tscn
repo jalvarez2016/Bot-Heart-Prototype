@@ -1,13 +1,99 @@
-[gd_scene load_steps=8 format=3 uid="uid://coap37bco1m7u"]
+[gd_scene load_steps=24 format=3 uid="uid://coap37bco1m7u"]
 
 [ext_resource type="Script" uid="uid://ct0qlu08mv1m7" path="res://Player/BaseParts/Attachments/base_arm.gd" id="1_7x5qj"]
 [ext_resource type="Script" uid="uid://bh6q10sbuc08b" path="res://Player/BaseParts/Attachments/gun.gd" id="2_ljtwe"]
 [ext_resource type="Script" uid="uid://dt28jfi18bvxe" path="res://Player/BaseParts/Models/arm_mesh_controller.gd" id="3_75bwf"]
 [ext_resource type="PackedScene" uid="uid://3n3n14br1jpi" path="res://Player/BaseParts/Models/LeftArmBones.glb" id="3_djyqp"]
+[ext_resource type="Shader" uid="uid://bppjol3b7vlff" path="res://Player/BaseParts/Attachments/BaseArmColor.gdshader" id="4_o1jrf"]
 [ext_resource type="PackedScene" uid="uid://t4nrgxeayk7g" path="res://Player/BaseParts/Models/RightArm.glb" id="4_wja0c"]
+[ext_resource type="Script" uid="uid://cbwbilvgeeilp" path="res://Player/BaseParts/Attachments/MeshColor.gd" id="5_jq7ml"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_7x5qj"]
 size = Vector3(2, 2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jub3l"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_o1jrf")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cf8c1"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_jub3l")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jq7ml"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_o1jrf")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_48cgj"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_jq7ml")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xkkqi"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_o1jrf")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jub3l"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_xkkqi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cf8c1"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_o1jrf")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tnrt5"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_cf8c1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_igy47"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_o1jrf")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xkkqi"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_igy47")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ir5y2"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_o1jrf")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_igy47"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_ir5y2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_48cgj"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_o1jrf")
+shader_parameter/enemyColor = Color(1, 0.319655, 0.380352, 1)
+shader_parameter/playerColor = Color(0.360662, 0.842227, 0.585928, 1)
+shader_parameter/entityType = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ir5y2"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_48cgj")
 
 [sub_resource type="BoxMesh" id="BoxMesh_djyqp"]
 size = Vector3(1, 6, 1)
@@ -21,10 +107,14 @@ gunControllers = [NodePath("RightArm/Armature_002/Skeleton3D/Cube_009/ShotOrigin
 isGun = true
 leftArmMesh = NodePath("LeftArm")
 rightArmMesh = NodePath("RightArm")
-dropRef = "C:/Users/jason/Saved Games/Godot Games/Bot-Heart-Prototype/Player/BaseParts/Drops/BaseArm.tscn"
+dropRef = "res://Player/BaseParts/Drops/BaseArm.tscn"
 
-[node name="Shoulder" type="MeshInstance3D" parent="."]
+[node name="Shoulder" type="MeshInstance3D" parent="." node_paths=PackedStringArray("meshRef", "legMain")]
 mesh = SubResource("BoxMesh_7x5qj")
+surface_material_override/0 = SubResource("StandardMaterial3D_cf8c1")
+script = ExtResource("5_jq7ml")
+meshRef = NodePath(".")
+legMain = NodePath("..")
 
 [node name="RightArm" parent="." node_paths=PackedStringArray("weapon_controller") instance=ExtResource("4_wja0c")]
 transform = Transform3D(-1.5, 0, 2.26494e-07, 0, 1.5, 0, -2.26494e-07, 0, -1.5, 1.43781, -6, 0)
@@ -34,6 +124,12 @@ weapon_controller = NodePath("Armature_002/Skeleton3D/Cube_009/ShotOrigin")
 
 [node name="Cube_009" parent="RightArm/Armature_002/Skeleton3D" index="0"]
 transform = Transform3D(9.72665e-08, 0.147822, -0.0915719, -0.251046, 4.2759e-08, -6.54231e-08, -5.64162e-08, 0.0689304, 0.196377, -0.693142, 2.05954, -2.42947)
+
+[node name="Cube_009" parent="RightArm/Armature_002/Skeleton3D/Cube_009" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
+surface_material_override/0 = SubResource("StandardMaterial3D_48cgj")
+script = ExtResource("5_jq7ml")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
 
 [node name="ShotOrigin" type="Node3D" parent="RightArm/Armature_002/Skeleton3D/Cube_009" index="1" node_paths=PackedStringArray("ArmController", "animator", "cooldown", "bulletSpawnPoint")]
 transform = Transform3D(2.65556, 0, 0, 0, 4.08739, 0, 0, 0, 3.07677, -0.0864043, 0.382917, -3.46638)
@@ -52,8 +148,20 @@ one_shot = true
 [node name="Cube_008" parent="RightArm/Armature_002/Skeleton3D" index="1"]
 transform = Transform3D(1.02195e-07, -0.138804, -0.237435, -0.226713, -3.56116e-08, -1.81524e-07, -5.4235e-08, -0.0598105, 0.551022, -1.10935, 2.05177, -1.50253)
 
+[node name="Cube_008" parent="RightArm/Armature_002/Skeleton3D/Cube_008" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
+surface_material_override/0 = SubResource("StandardMaterial3D_jub3l")
+script = ExtResource("5_jq7ml")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
+
 [node name="Cube_007" parent="RightArm/Armature_002/Skeleton3D" index="2"]
 transform = Transform3D(-5.326e-09, 0.407027, -0.234997, -0.375915, -1.43999e-08, -8.8709e-09, -1.36334e-08, 0.234997, 0.407027, -0.426083, 2.05177, -0.270957)
+
+[node name="Cube_007" parent="RightArm/Armature_002/Skeleton3D/Cube_007" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
+surface_material_override/0 = SubResource("StandardMaterial3D_tnrt5")
+script = ExtResource("5_jq7ml")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
 
 [node name="LeftArm" parent="." node_paths=PackedStringArray("weapon_controller") instance=ExtResource("3_djyqp")]
 transform = Transform3D(-1.5, 0, 1.31134e-07, 0, 1.5, 0, -1.31134e-07, 0, -1.5, -1.56219, -6, 0)
@@ -78,11 +186,29 @@ one_shot = true
 
 [node name="Marker3D" type="Marker3D" parent="LeftArm/Armature_001/Skeleton3D/Cube_006/ShotOrigin"]
 
+[node name="Cube_006" parent="LeftArm/Armature_001/Skeleton3D/Cube_006" index="1" node_paths=PackedStringArray("meshRef", "legMain")]
+surface_material_override/0 = SubResource("StandardMaterial3D_xkkqi")
+script = ExtResource("5_jq7ml")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
+
 [node name="Cube_005" parent="LeftArm/Armature_001/Skeleton3D" index="1"]
 transform = Transform3D(1.02195e-07, -0.138804, -0.237435, -0.226713, -3.56116e-08, -1.81524e-07, -5.4235e-08, -0.0598105, 0.551022, -1.10935, 2.05177, -1.50253)
 
+[node name="Cube_005" parent="LeftArm/Armature_001/Skeleton3D/Cube_005" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
+surface_material_override/0 = SubResource("StandardMaterial3D_igy47")
+script = ExtResource("5_jq7ml")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
+
 [node name="Cube" parent="LeftArm/Armature_001/Skeleton3D" index="2"]
 transform = Transform3D(-8.77007e-09, 0.407027, -0.234997, -0.375915, -1.96525e-08, -8.8709e-09, -1.60392e-08, 0.234997, 0.407027, -0.426083, 2.05177, -0.270956)
+
+[node name="Cube" parent="LeftArm/Armature_001/Skeleton3D/Cube" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
+surface_material_override/0 = SubResource("StandardMaterial3D_ir5y2")
+script = ExtResource("5_jq7ml")
+meshRef = NodePath(".")
+legMain = NodePath("../../../../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 visible = false

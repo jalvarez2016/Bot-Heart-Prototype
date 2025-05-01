@@ -51,4 +51,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.14895, 8.12754, 6.75602)
 
 [node name="Enemy" parent="." instance=ExtResource("2_c213v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.2203, 8.44805, 11.9167)
-RightArm = false
