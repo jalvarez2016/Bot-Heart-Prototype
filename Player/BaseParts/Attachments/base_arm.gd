@@ -20,8 +20,20 @@ var actionType = {
 }
 
 func _ready() -> void:
+	leftArmMesh.visible = false
+	rightArmMesh.visible = false
 	leftArmAnimator.play('Arm Idle')
 	rightArmAnimator.play('Arm Idle')
+
+
+func rotate_arm(rotation_amount: float) -> void:
+	if isLeftArm:
+		#if rotation_amount <= 1.5 && rotation_amount >= -1.5:
+		print(rotation_amount)
+		rotation.y = rotation_amount
+	else:
+		#if rotation_amount <= 1.5 && rotation_amount >= -1.5:
+		rotation.y = rotation_amount
 
 
 func set_arms() -> void:

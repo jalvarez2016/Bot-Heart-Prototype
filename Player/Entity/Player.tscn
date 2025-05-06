@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://7mmvptvm8oaa"]
+[gd_scene load_steps=27 format=3 uid="uid://7mmvptvm8oaa"]
 
 [ext_resource type="Script" uid="uid://bifwf55i8nkye" path="res://Player/Entity/Camera.gd" id="1_f71a7"]
 [ext_resource type="Script" uid="uid://bng6h2rgf8swi" path="res://Player/Entity/player.gd" id="1_hdlnp"]
 [ext_resource type="Script" uid="uid://bds8xwudn2nns" path="res://Player/Entity/playerController.gd" id="1_mahfv"]
 [ext_resource type="Shader" uid="uid://deu4icylu3kyq" path="res://Player/Entity/Shaders/PixelEffect.gdshader" id="2_4msa4"]
 [ext_resource type="Script" uid="uid://blr8fm5ljldtk" path="res://Player/Entity/leg_controller.gd" id="5_stiq3"]
+[ext_resource type="Script" uid="uid://ceoklndsisatb" path="res://Player/Entity/Target.gd" id="5_vkxho"]
 [ext_resource type="Script" uid="uid://cp6rm5x1st4uk" path="res://Player/Entity/arm_controller.gd" id="6_82htd"]
 [ext_resource type="Script" uid="uid://c0d6lg8j3tay6" path="res://Player/Entity/equipPartsController.gd" id="7_jmv62"]
 [ext_resource type="Script" uid="uid://nffytd66dtd6" path="res://Player/Entity/removePartsController.gd" id="8_4mymh"]
@@ -51,6 +52,12 @@ size = Vector2(9, 5)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hdlnp"]
 render_priority = 0
 shader = ExtResource("2_4msa4")
+
+[sub_resource type="SphereMesh" id="SphereMesh_dd8ie"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vkxho"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_82htd"]
 size = Vector2(575.75, 648)
@@ -115,6 +122,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -1, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 0)
 
 [node name="Head" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CharacterBody3D/Head"]
 spring_length = 15.0
@@ -127,8 +135,28 @@ near = 0.001
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1)
+visible = false
 mesh = SubResource("PlaneMesh_mahfv")
 surface_material_override/0 = SubResource("ShaderMaterial_hdlnp")
+
+[node name="Node3D" type="Node3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6)
+
+[node name="RayCast3D" type="RayCast3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D/Node3D" node_paths=PackedStringArray("target", "resetPosition")]
+target_position = Vector3(0, 0, -50)
+script = ExtResource("5_vkxho")
+target = NodePath("CurrentPosition")
+resetPosition = NodePath("ResetPosition")
+
+[node name="CurrentPosition" type="Marker3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D/Node3D/RayCast3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D/Node3D/RayCast3D/CurrentPosition"]
+mesh = SubResource("SphereMesh_dd8ie")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_vkxho")
+
+[node name="ResetPosition" type="Marker3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D/Node3D/RayCast3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)
 
 [node name="LegController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftLegAnchor", "RightLegAnchor", "timer")]
 script = ExtResource("5_stiq3")
@@ -140,13 +168,14 @@ timer = NodePath("Timer")
 wait_time = 0.8
 one_shot = true
 
-[node name="ArmController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftArmAnchor", "RightArmAnchor", "addPartsUI", "removeParts", "mesh")]
+[node name="ArmController" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("LeftArmAnchor", "RightArmAnchor", "addPartsUI", "removeParts", "mesh", "weaponTarget")]
 script = ExtResource("6_82htd")
 LeftArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/LeftArm")
 RightArmAnchor = NodePath("../MeshInstance3D/AnchorPoints/RightArm")
 addPartsUI = NodePath("EquipController")
 removeParts = NodePath("RemoveController")
 mesh = NodePath("../MeshInstance3D")
+weaponTarget = NodePath("../Head/SpringArm3D/Camera3D/Node3D/RayCast3D/CurrentPosition")
 
 [node name="Timer" type="Timer" parent="CharacterBody3D/ArmController"]
 wait_time = 0.2

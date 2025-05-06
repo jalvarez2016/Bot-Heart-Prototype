@@ -1,7 +1,67 @@
-[gd_scene load_steps=5 format=3 uid="uid://5fq63xnuu27o"]
+[gd_scene load_steps=18 format=3 uid="uid://5fq63xnuu27o"]
 
 [ext_resource type="Script" uid="uid://dqp5puefmfdfj" path="res://Player/BaseParts/base_arm.gd" id="1_5aqte"]
 [ext_resource type="PackedScene" uid="uid://t4nrgxeayk7g" path="res://Player/BaseParts/Models/RightArm.glb" id="2_llvp5"]
+[ext_resource type="Shader" uid="uid://bg7b6p4b0x601" path="res://Player/BaseParts/Drops/drop.gdshader" id="3_pxrc2"]
+
+[sub_resource type="Gradient" id="Gradient_tjhs1"]
+offsets = PackedFloat32Array(0.561404)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yp7cd"]
+gradient = SubResource("Gradient_tjhs1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hlcv5"]
+render_priority = 0
+shader = ExtResource("3_pxrc2")
+shader_parameter/highlight_color = Color(1, 1, 0, 1)
+shader_parameter/highlight_power = 3.0
+shader_parameter/highlight_intensity = 0.5
+shader_parameter/rim_power = 3.0
+shader_parameter/texture_albedo = SubResource("GradientTexture1D_yp7cd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7hvk"]
+next_pass = SubResource("ShaderMaterial_hlcv5")
+
+[sub_resource type="Gradient" id="Gradient_pxrc2"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tjhs1"]
+gradient = SubResource("Gradient_pxrc2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1rcq4"]
+render_priority = 0
+shader = ExtResource("3_pxrc2")
+shader_parameter/highlight_color = Color(1, 1, 0, 1)
+shader_parameter/highlight_power = 3.0
+shader_parameter/highlight_intensity = 0.5
+shader_parameter/rim_power = 3.0
+shader_parameter/texture_albedo = SubResource("GradientTexture1D_tjhs1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_54ckd"]
+next_pass = SubResource("ShaderMaterial_1rcq4")
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_yp7cd"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hlcv5"]
+gradient = SubResource("Gradient_yp7cd")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v7hvk"]
+render_priority = 0
+shader = ExtResource("3_pxrc2")
+shader_parameter/highlight_color = Color(1, 1, 0, 1)
+shader_parameter/highlight_power = 3.0
+shader_parameter/highlight_intensity = 1.0
+shader_parameter/rim_power = 3.0
+shader_parameter/texture_albedo = SubResource("GradientTexture1D_hlcv5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1rcq4"]
+next_pass = SubResource("ShaderMaterial_v7hvk")
+albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_llvp5"]
 size = Vector3(2.146, 1.4549, 2.55034)
@@ -29,11 +89,20 @@ bones/8/position = Vector3(0.863258, 2, -0.992635)
 [node name="Cube_009" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D" index="0"]
 transform = Transform3D(3.24613e-08, 0.163103, 0.000505475, -0.251046, 2.21926e-08, -5.75615e-08, -8.32044e-08, -0.000380498, 0.216677, -1.59754, 2.05954, -1.19789)
 
+[node name="Cube_009" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D/Cube_009" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_v7hvk")
+
 [node name="Cube_008" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D" index="1"]
 transform = Transform3D(4.24664e-08, -0.151132, 0.00696117, -0.226713, -1.63057e-08, -1.62274e-07, -8.34735e-08, 0.00175353, 0.59996, -1.59439, 2.05177, -0.181838)
 
+[node name="Cube_008" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D/Cube_008" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_54ckd")
+
 [node name="Cube_007" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D" index="2"]
 transform = Transform3D(-8.74268e-09, 0.440212, 0.164644, -0.375915, -1.31471e-08, 6.21514e-09, 6.38998e-09, -0.164644, 0.440212, -0.480082, 2.05177, 0.156479)
+
+[node name="Cube_007" parent="RigidBody3D/RightArm/Armature_002/Skeleton3D/Cube_007" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_1rcq4")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="RigidBody3D"]
 transform = Transform3D(0.981376, 0, -0.192093, 0, 1, 0, 0.192093, 0, 0.981376, -0.0314324, 0.227448, 0.371205)

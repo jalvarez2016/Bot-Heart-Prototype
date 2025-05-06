@@ -5,6 +5,7 @@ extends Node3D
 @export var cooldown: Timer
 @export var bulletSpawnPoint: Marker3D
 @export var preloadedBullet: Resource = preload("res://Player/BaseParts/SFX/Bullet.tscn")
+@export var mainNode: Node3D
 var shooting: bool = false
 
 
@@ -24,8 +25,8 @@ func shoot() -> void:
 		bullet.global_position = bulletSpawnPoint.global_position
 #		TODO: change to be entity controllers
 		#var generalMesh = get_tree().root.get_child(0).get_node("Player").get_node("CharacterBody3D").mesh
-		var generalMesh =  ArmController.ownerMesh
-		bullet.rotation.y = generalMesh.global_rotation.y
+		var generalMesh =  mainNode
+		bullet.rotation.y =  - generalMesh.rotation.y
 
 		bullet.fire()
 		shooting = true

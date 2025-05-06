@@ -5,6 +5,7 @@ extends Node3D
 @export var addPartsUI: Container
 @export var removeParts: Container
 @export var mesh: MeshInstance3D
+@export var weaponTarget: Node3D
 
 var defaultArm := preload("res://Player/BaseParts/Attachments/BaseArm.tscn")
 var LeftArmAnimator: AnimationPlayer
@@ -22,9 +23,26 @@ func _ready() -> void:
 	addPartsUI.deactivate()
 	removeParts.deactivate()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	check_equip()
 	_check_unequip()
+	upate_arm_rotation(delta)
+
+
+#	Update Arm Rotation
+func upate_arm_rotation(delta) -> void:
+#	Determine rotation needed
+	var weaponTargetPosition: Vector2 = Vector2(weaponTarget.global_position.x, weaponTarget.global_position.z )
+	if leftArm:
+		var currentPos : Vector2 = Vector2(leftArm.global_position.x, leftArm.global_position.z)
+		var direction = - (currentPos - weaponTargetPosition)
+		var armAngle = lerp_angle(leftArm.rotation.y, atan2(direction.x, direction.y) , delta * 10)
+		leftArm.rotate_arm(armAngle)
+	if rightArm:
+		var currentPos : Vector2 = Vector2(rightArm.global_position.x, rightArm.global_position.z)
+		var direction = - (currentPos - weaponTargetPosition)
+		var armAngle = lerp_angle(rightArm.rotation.y, atan2(direction.x, direction.y) , delta * 10)
+		rightArm.rotate_arm(armAngle)
 
 #	Equip/Remove Logic
 func check_equip() -> void: 

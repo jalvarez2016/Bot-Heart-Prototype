@@ -5,8 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://5fq63xnuu27o" path="res://Player/BaseParts/Drops/BaseArm.tscn" id="2_edu2i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qcrmj"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+sky_top_color = Color(0.718246, 0.781459, 0.918858, 1)
+sky_horizon_color = Color(0.862745, 0.584314, 0.6, 1)
+ground_bottom_color = Color(0.729052, 0.293703, 0.585547, 1)
+ground_horizon_color = Color(0.862817, 0.585078, 0.598401, 1)
+ground_curve = 0.251067
 
 [sub_resource type="Sky" id="Sky_edu2i"]
 sky_material = SubResource("ProceduralSkyMaterial_qcrmj")
@@ -24,11 +27,14 @@ data = PackedVector3Array(-100, 0.5, 100, 100, 0.5, 100, -100, -0.5, 100, 100, 0
 
 [node name="World" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
 environment = SubResource("Environment_c213v")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_color = Color(0.372549, 0.266667, 0.462745, 1)
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_qcrmj")]

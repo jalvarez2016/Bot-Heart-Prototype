@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://coap37bco1m7u"]
+[gd_scene load_steps=23 format=3 uid="uid://coap37bco1m7u"]
 
 [ext_resource type="Script" uid="uid://ct0qlu08mv1m7" path="res://Player/BaseParts/Attachments/base_arm.gd" id="1_7x5qj"]
 [ext_resource type="Script" uid="uid://bh6q10sbuc08b" path="res://Player/BaseParts/Attachments/gun.gd" id="2_ljtwe"]
@@ -95,9 +95,6 @@ shader_parameter/entityType = 0
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_48cgj")
 
-[sub_resource type="BoxMesh" id="BoxMesh_djyqp"]
-size = Vector3(1, 6, 1)
-
 [node name="BaseArm" type="Node3D" node_paths=PackedStringArray("leftArmAnimator", "rightArmAnimator", "gunControllers", "leftArmMesh", "rightArmMesh")]
 script = ExtResource("1_7x5qj")
 health = 20
@@ -131,13 +128,14 @@ script = ExtResource("5_jq7ml")
 meshRef = NodePath(".")
 legMain = NodePath("../../../../..")
 
-[node name="ShotOrigin" type="Node3D" parent="RightArm/Armature_002/Skeleton3D/Cube_009" index="1" node_paths=PackedStringArray("ArmController", "animator", "cooldown", "bulletSpawnPoint")]
+[node name="ShotOrigin" type="Node3D" parent="RightArm/Armature_002/Skeleton3D/Cube_009" index="1" node_paths=PackedStringArray("ArmController", "animator", "cooldown", "bulletSpawnPoint", "mainNode")]
 transform = Transform3D(2.65556, 0, 0, 0, 4.08739, 0, 0, 0, 3.07677, -0.0864043, 0.382917, -3.46638)
 script = ExtResource("2_ljtwe")
 ArmController = NodePath("../../../../..")
 animator = NodePath("../../../../AnimationPlayer")
 cooldown = NodePath("Timer")
 bulletSpawnPoint = NodePath("Marker3D")
+mainNode = NodePath("../../../../..")
 
 [node name="Timer" type="Timer" parent="RightArm/Armature_002/Skeleton3D/Cube_009/ShotOrigin"]
 wait_time = 0.5
@@ -169,16 +167,25 @@ visible = false
 script = ExtResource("3_75bwf")
 weapon_controller = NodePath("Armature_001/Skeleton3D/Cube_006/ShotOrigin")
 
-[node name="Cube_006" parent="LeftArm/Armature_001/Skeleton3D" index="0"]
-transform = Transform3D(9.72665e-08, 0.147822, -0.0915719, -0.251046, 4.2759e-08, -6.54231e-08, -5.64162e-08, 0.0689304, 0.196377, -0.693142, 2.05954, -2.42947)
+[node name="Skeleton3D" parent="LeftArm/Armature_001" index="0"]
+bones/1/rotation = Quaternion(-0.42716, 0.563502, 0.563502, 0.42716)
+bones/2/rotation = Quaternion(8.88782e-08, 4.66764e-08, -0.787997, 0.61568)
+bones/3/rotation = Quaternion(-1.4853e-09, 7.02587e-10, -0.00417587, 0.999991)
+bones/7/position = Vector3(-1.60891, 2, -1.59789)
+bones/7/rotation = Quaternion(-0.689384, -0.15732, -0.15732, 0.689384)
+bones/8/position = Vector3(0.863258, 2, -0.992635)
 
-[node name="ShotOrigin" type="Node3D" parent="LeftArm/Armature_001/Skeleton3D/Cube_006" index="0" node_paths=PackedStringArray("ArmController", "animator", "cooldown", "bulletSpawnPoint")]
+[node name="Cube_006" parent="LeftArm/Armature_001/Skeleton3D" index="0"]
+transform = Transform3D(8.49182e-08, 0.163103, 0.000214757, -0.251046, 3.39513e-08, -1.59106e-09, -2.3309e-08, -0.000161654, 0.216677, -1.59678, 2.05953, -1.1951)
+
+[node name="ShotOrigin" type="Node3D" parent="LeftArm/Armature_001/Skeleton3D/Cube_006" index="0" node_paths=PackedStringArray("ArmController", "animator", "cooldown", "bulletSpawnPoint", "mainNode")]
 transform = Transform3D(2.65556, 0, 0, 0, 4.08739, 0, 0, 0, 3.07677, -0.0864043, 0.382917, -3.46638)
 script = ExtResource("2_ljtwe")
 ArmController = NodePath("../../../../..")
 animator = NodePath("../../../../AnimationPlayer")
 cooldown = NodePath("Timer")
 bulletSpawnPoint = NodePath("Marker3D")
+mainNode = NodePath("../../../../..")
 
 [node name="Timer" type="Timer" parent="LeftArm/Armature_001/Skeleton3D/Cube_006/ShotOrigin"]
 wait_time = 0.5
@@ -193,7 +200,7 @@ meshRef = NodePath(".")
 legMain = NodePath("../../../../..")
 
 [node name="Cube_005" parent="LeftArm/Armature_001/Skeleton3D" index="1"]
-transform = Transform3D(1.02195e-07, -0.138804, -0.237435, -0.226713, -3.56116e-08, -1.81524e-07, -5.4235e-08, -0.0598105, 0.551022, -1.10935, 2.05177, -1.50253)
+transform = Transform3D(8.97205e-08, -0.151131, 0.00717471, -0.226713, -2.67813e-08, -6.7987e-09, -2.94296e-08, 0.00180732, 0.599957, -1.59383, 2.05177, -0.179036)
 
 [node name="Cube_005" parent="LeftArm/Armature_001/Skeleton3D/Cube_005" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
 surface_material_override/0 = SubResource("StandardMaterial3D_igy47")
@@ -202,17 +209,13 @@ meshRef = NodePath(".")
 legMain = NodePath("../../../../..")
 
 [node name="Cube" parent="LeftArm/Armature_001/Skeleton3D" index="2"]
-transform = Transform3D(-8.77007e-09, 0.407027, -0.234997, -0.375915, -1.96525e-08, -8.8709e-09, -1.60392e-08, 0.234997, 0.407027, -0.426083, 2.05177, -0.270956)
+transform = Transform3D(6.56459e-08, 0.439916, 0.165433, -0.375915, -2.92589e-08, 1.3184e-07, 9.71912e-08, -0.165433, 0.439916, -0.4798, 2.05177, 0.15734)
 
 [node name="Cube" parent="LeftArm/Armature_001/Skeleton3D/Cube" index="0" node_paths=PackedStringArray("meshRef", "legMain")]
 surface_material_override/0 = SubResource("StandardMaterial3D_ir5y2")
 script = ExtResource("5_jq7ml")
 meshRef = NodePath(".")
 legMain = NodePath("../../../../..")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("BoxMesh_djyqp")
 
 [connection signal="timeout" from="RightArm/Armature_002/Skeleton3D/Cube_009/ShotOrigin/Timer" to="RightArm/Armature_002/Skeleton3D/Cube_009/ShotOrigin" method="_on_timer_timeout"]
 [connection signal="timeout" from="LeftArm/Armature_001/Skeleton3D/Cube_006/ShotOrigin/Timer" to="LeftArm/Armature_001/Skeleton3D/Cube_006/ShotOrigin" method="_on_timer_timeout"]
