@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 		velocity.y = jump_force
 	
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
-	var move_direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var move_direction : Vector3 = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	move_direction = move_direction.rotated(Vector3.UP, spring_arm.rotation.y).normalized()
 	
 	

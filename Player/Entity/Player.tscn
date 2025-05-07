@@ -125,6 +125,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CharacterBody3D/Head"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 spring_length = 15.0
 margin = 0.725
 script = ExtResource("1_f71a7")
@@ -140,7 +141,7 @@ mesh = SubResource("PlaneMesh_mahfv")
 surface_material_override/0 = SubResource("ShaderMaterial_hdlnp")
 
 [node name="Node3D" type="Node3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -6)
 
 [node name="RayCast3D" type="RayCast3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D/Node3D" node_paths=PackedStringArray("target", "resetPosition")]
 target_position = Vector3(0, 0, -50)
