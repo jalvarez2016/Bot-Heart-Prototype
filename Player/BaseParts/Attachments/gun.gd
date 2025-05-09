@@ -17,17 +17,13 @@ func shoot() -> void:
 	if !isActive:
 		return
 	if ArmController.isGun:
-		print(ArmController.isEnemyPart)
 		animator.play('Arm Shoot')
 		var bullet: Node3D = preloadedBullet.instantiate()
 		get_tree().root.get_child(0).add_child(bullet)
 		bullet.isEnemyBullet = ArmController.isEnemyPart
 		bullet.global_position = bulletSpawnPoint.global_position
-#		TODO: change to be entity controllers
-		#var generalMesh = get_tree().root.get_child(0).get_node("Player").get_node("CharacterBody3D").mesh
 		var generalMesh : Node3D =  mainNode
-		print(generalMesh.rotation, generalMesh.global_rotation)
-		bullet.rotation.y =  - generalMesh.global_rotation.y
+		bullet.rotation.y = - generalMesh.projectileRotation
 
 		bullet.fire()
 		shooting = true

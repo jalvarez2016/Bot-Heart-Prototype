@@ -35,17 +35,19 @@ func upate_arm_rotation(delta) -> void:
 	var weaponTargetPosition: Vector2 = Vector2(weaponTarget.global_position.x, weaponTarget.global_position.z )
 	if leftArm:
 		var currentPos : Vector2 = Vector2(leftArm.global_position.x, leftArm.global_position.z)
-		#currentPos = currentPos.rotated(mesh.rotation.y)
 		var direction : Vector2 = - (currentPos - weaponTargetPosition).normalized()
+		#leftArm.projectileRotation = lerp_angle(leftArm.rotation.y, atan2(direction.x, direction.y), delta * 10)
 		direction = direction.rotated(mesh.rotation.y)
-		var armAngle : float = lerp_angle(leftArm.rotation.y, atan2(direction.x, direction.y) , delta * 10)
+		var armAngle : float = lerp_angle(leftArm.rotation.y, atan2(direction.x, direction.y), delta * 10)
 		leftArm.rotate_arm(armAngle)
+		leftArm.projectileRotation = - (mesh.rotation.y + leftArm.rotation.y)
 	if rightArm:
 		var currentPos : Vector2 = Vector2(rightArm.global_position.x, rightArm.global_position.z)
 		var direction : Vector2 = - (currentPos - weaponTargetPosition).normalized()
 		direction = direction.rotated(mesh.rotation.y)
 		var armAngle: float = lerp_angle((rightArm.rotation.y), atan2(direction.x, direction.y) , delta * 10)
 		rightArm.rotate_arm(armAngle)
+		rightArm.projectileRotation = - (mesh.rotation.y + rightArm.rotation.y)
 
 #	Equip/Remove Logic
 func check_equip() -> void: 

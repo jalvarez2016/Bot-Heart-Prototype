@@ -136,7 +136,6 @@ near = 0.001
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Head/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1)
-visible = false
 mesh = SubResource("PlaneMesh_mahfv")
 surface_material_override/0 = SubResource("ShaderMaterial_hdlnp")
 
